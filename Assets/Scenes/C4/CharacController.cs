@@ -4,40 +4,41 @@ using UnityEngine;
 
 public class CharacController : MonoBehaviour {
 
-
     public float m_fMoveSpeed;
 
     public float m_fRotSpeed;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-
     float he, ve;
-	// Update is called once per frame
+    Vector3 right, move;
+    Quaternion dir;
+    Vector3 forward;
 	void Update () {
-
+        //int n = Random.Range(0, 9);
+        //if (n != 3 && n != 8 && n != 0)
+        //{
+        //    Debug.Log(n);
+        //}
         he = Input.GetAxis("Horizontal");
         ve = Input.GetAxis("Vertical");
 
-        Quaternion dir = Quaternion.Euler(0f, Camera.main.transform.rotation.eulerAngles.y, 0f);
+        dir = Quaternion.Euler(0f, Camera.main.transform.rotation.eulerAngles.y, 0f);
 
-        Vector3 right = dir * Vector3.right;
+         right = dir * Vector3.right;
 
-        Vector3 forward = dir * Vector3.forward;
+         forward = dir * Vector3.forward;
 
-       // Vector3 right = Vector3.right;
+        //Vector3 right = Vector3.right;
 
         //Vector3 forward = Vector3.forward;
 
 
-        Vector3 move = he * right + ve * forward;
+        move = he * right + ve * forward;
 
         if (Vector3.zero != move)
         {
             transform.forward = move;// Vector3.Lerp(transform.forward, move, m_fRotSpeed * Time.deltaTime);
-            transform.Translate(Vector3.forward * m_fMoveSpeed  * Time.deltaTime, Space.Self);
+            //transform.Translate(Vector3.forward * m_fMoveSpeed  * Time.deltaTime, Space.Self);
+            transform.Translate(transform.forward * m_fMoveSpeed * Time.deltaTime, Space.World);
         }
 
 	}

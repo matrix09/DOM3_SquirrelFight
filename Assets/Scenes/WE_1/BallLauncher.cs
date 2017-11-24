@@ -6,7 +6,7 @@ public class BallLauncher : MonoBehaviour {
 
     public float m_fFrequence;// 球体生成的频率
     public GameObject m_oBallActor;//球体实例对象脚本
-
+    public string path;
     bool m_bFireBall;
     float m_fStartTime;
     public void OnStart()
@@ -37,7 +37,7 @@ public class BallLauncher : MonoBehaviour {
 
     void FireBall()
     {
-        Instantiate(m_oBallActor, transform.position, Quaternion.identity);
+        BallActor.CreateBall(path, transform.position, Vector3.zero);
     }
 
 }

@@ -31,7 +31,6 @@ public class CharacController : MonoBehaviour {
 
         //Vector3 forward = Vector3.forward;
 
-
         move = he * right + ve * forward;
 
         if (Vector3.zero != move)

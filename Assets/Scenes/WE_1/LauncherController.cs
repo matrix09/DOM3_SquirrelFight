@@ -7,7 +7,6 @@ public class LauncherController : MonoBehaviour {
 
     public BallLauncher[] m_cBallLaunchers;
 
-
     public void OnStart()
     {
         for (int i = 0; i < m_cBallLaunchers.Length; i++)

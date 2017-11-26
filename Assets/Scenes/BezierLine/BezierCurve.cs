@@ -52,7 +52,7 @@ public class BezierCurve : MonoBehaviour {
         {
             float n = t * CurveLength;
             i = (int)n;
-            t = n - t;
+            t = n - i;
             i *= 3;
         }
 
@@ -81,7 +81,7 @@ public class BezierCurve : MonoBehaviour {
         {
             float n = t * CurveLength;
             i = (int)n;
-            t = n - t;
+            t = n - i;
             i *= 3;
         }
         w = BezierInterface.GetFirstDerivative(points[i], points[i + 1], points[i + 2], points[i + 3], t);

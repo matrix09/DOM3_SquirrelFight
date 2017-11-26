@@ -1,10 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public class BezierCurve : MonoBehaviour {
 
     public Vector3[] points;
+
+    //曲线的个数
+    public int CurveLength
+    {
+        get
+        {
+            return (points.Length - 1) / 3;
+        }
+    }
+
+    //点的个数
+    public int PointCount
+    {
+        get
+        {
+            return points.Length;
+        }
+    }
+
 
     public void Reset()
     {
@@ -23,11 +42,22 @@ public class BezierCurve : MonoBehaviour {
     /// <returns></returns>
     public Vector3 GetPoint4(float t)
     {
-        Vector3 v = Vector3.zero;
+        int i = 0;
+        if (t >= 1f)
+        {
+            i = points.Length - 4;
+            t = 1f;
+        }
+        else
+        {
+            float n = t * CurveLength;
+            i = (int)n;
+            t = n - t;
+            i *= 3;
+        }
 
-        v = transform.TransformPoint(BezierInterface.GetPoint(points[0], points[1], points[2], points[3], t));
-
-        return v;
+        Vector3 v = BezierInterface.GetPoint(points[i], points[i + 1], points[i + 2], points[i + 3], t);
+        return transform.TransformPoint(v);
     }
 
 
@@ -41,7 +71,20 @@ public class BezierCurve : MonoBehaviour {
 
         Vector3 v, w = Vector3.zero;
 
-        w = BezierInterface.GetFirstDerivative(points[0], points[1], points[2], points[3], t);
+        int i = 0;
+        if (t >= 1f)
+        {
+            i = points.Length - 4;
+            t = 1f;
+        }
+        else
+        {
+            float n = t * CurveLength;
+            i = (int)n;
+            t = n - t;
+            i *= 3;
+        }
+        w = BezierInterface.GetFirstDerivative(points[i], points[i + 1], points[i + 2], points[i + 3], t);
 
         v = transform.TransformPoint(w) - transform.position;
 
@@ -60,6 +103,21 @@ public class BezierCurve : MonoBehaviour {
         Vector3 v = GetVelocity4(t);
 
         return v.normalized;
+    }
+
+    /// <summary>
+    /// 添加曲线的points
+    /// </summary>
+    public void AddCurve()
+    {
+        Vector3 point = points[points.Length - 1];
+        Array.Resize(ref points, points.Length + 3);
+        point.x += 1f;
+        points[points.Length - 3] = point;
+        point.x += 1f;
+        points[points.Length - 2] = point;
+        point.x += 1f;
+        points[points.Length - 1] = point;
     }
 
 }

@@ -6,7 +6,8 @@ public class BallLauncher : MonoBehaviour {
 
     public float m_fFrequence;// 球体生成的频率
     public GameObject m_oBallActor;//球体实例对象脚本
-    public string path;
+    public string path;//预制体加载路径
+
     bool m_bFireBall;
     float m_fStartTime;
     public void OnStart()

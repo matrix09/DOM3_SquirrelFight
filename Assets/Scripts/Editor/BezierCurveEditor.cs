@@ -9,33 +9,44 @@ public class BezierCurveEditor : Editor {
 
     BezierCurve curve;
     Transform curveTransform;
-    
+
+    const int lineSteps = 10;
+    const float directionScale = 0.5f;
+
     void OnEnable()
     {
         curve = target as BezierCurve;
         curveTransform = curve.transform;
     }
 
+    /// <summary>
+    /// 重载Scene UI
+    /// </summary>
     void OnSceneGUI()
     {
 
         Vector3 p0 = ShowPoint(0);
-        Vector3 p1 = ShowPoint(1);
-        Vector3 p2 = ShowPoint(2);
-        Vector3 p3 = ShowPoint(3);
+        for (int i = 1; i < curve.PointCount; i += 3)
+        {
+            Vector3 p1 = ShowPoint(i);
+            Vector3 p2 = ShowPoint(i + 1);
+            Vector3 p3 = ShowPoint(i + 2);
 
-        Handles.color = Color.gray;
-        Handles.DrawLine(p0, p1);
-        Handles.DrawLine(p2, p3);
+            Handles.color = Color.gray;
+            Handles.DrawLine(p0, p1);
+            Handles.DrawLine(p2, p3);
 
+         
+
+            Handles.DrawBezier(p0, p3, p1, p2, Color.white, null, 2f);
+
+            p0 = p3;
+        }
         ShowDirection();
-
-        Handles.DrawBezier(p0, p3, p1, p2, Color.white, null, 2f);
+    
 
     }
 
-    const int lineSteps = 10;
-    const float directionScale = 0.5f;
     /// <summary>
     /// 显示方向
     /// </summary>
@@ -71,6 +82,19 @@ public class BezierCurveEditor : Editor {
         }
 
         return point;
+
+    }
+
+    public override void OnInspectorGUI()
+    {
+        DrawDefaultInspector();
+
+        if (GUILayout.Button("Add Curve"))
+        {
+            Undo.RecordObject(curve, "Add Curve");
+            curve.AddCurve();
+            EditorUtility.SetDirty(curve);
+        }
 
     }
 

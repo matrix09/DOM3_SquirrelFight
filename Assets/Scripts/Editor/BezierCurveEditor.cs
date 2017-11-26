@@ -13,6 +13,12 @@ public class BezierCurveEditor : Editor {
     const int lineSteps = 10;
     const float directionScale = 0.5f;
 
+    float m_fSelectedIndex = -1;
+
+    float size = 0.5f;
+    float pickSize = 1f;
+
+
     void OnEnable()
     {
         curve = target as BezierCurve;
@@ -35,9 +41,7 @@ public class BezierCurveEditor : Editor {
             Handles.color = Color.gray;
             Handles.DrawLine(p0, p1);
             Handles.DrawLine(p2, p3);
-
-         
-
+            Handles.color = Color.white;
             Handles.DrawBezier(p0, p3, p1, p2, Color.white, null, 2f);
 
             p0 = p3;
@@ -70,16 +74,28 @@ public class BezierCurveEditor : Editor {
     {
         Vector3 point = curveTransform.TransformPoint(curve.points[index]);
 
-        EditorGUI.BeginChangeCheck();
-        
-        point = Handles.DoPositionHandle(point, Quaternion.identity);
 
-        if (EditorGUI.EndChangeCheck())
+
+        if (Handles.Button(point, Quaternion.identity, size, pickSize, Handles.DotHandleCap))
         {
-            Undo.RecordObject(curve, "move point");
-            EditorUtility.SetDirty(curve);
-            curve.points[index] = curveTransform.InverseTransformPoint(point);
+            m_fSelectedIndex = index;
         }
+
+
+        if (m_fSelectedIndex == index)
+        {
+            EditorGUI.BeginChangeCheck();
+
+            point = Handles.DoPositionHandle(point, Quaternion.identity);
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObject(curve, "move point");
+                EditorUtility.SetDirty(curve);
+                curve.points[index] = curveTransform.InverseTransformPoint(point);
+            }
+        }
+
 
         return point;
 

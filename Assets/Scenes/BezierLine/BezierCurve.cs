@@ -16,6 +16,11 @@ public class BezierCurve : MonoBehaviour {
         };
     }
 
+    /// <summary>
+    /// 获取指定index点的点坐标
+    /// </summary>
+    /// <param name="t"></param>
+    /// <returns></returns>
     public Vector3 GetPoint4(float t)
     {
         Vector3 v = Vector3.zero;
@@ -25,6 +30,12 @@ public class BezierCurve : MonoBehaviour {
         return v;
     }
 
+
+    /// <summary>
+    /// 获取速度 : 向量要的是长度和方向。
+    /// </summary>
+    /// <param name="t"></param>
+    /// <returns></returns>
     private Vector3 GetVelocity4(float t)
     {
 
@@ -38,6 +49,12 @@ public class BezierCurve : MonoBehaviour {
 
     }
 
+
+    /// <summary>
+    /// 获取方向向量
+    /// </summary>
+    /// <param name="t"></param>
+    /// <returns></returns>
     public Vector3 GetDirection4(float t)
     {
         Vector3 v = GetVelocity4(t);

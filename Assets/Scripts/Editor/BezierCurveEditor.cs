@@ -1,5 +1,5 @@
-﻿using
-System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -9,8 +9,7 @@ public class BezierCurveEditor : Editor {
 
     BezierCurve curve;
     Transform curveTransform;
-
-
+    
     void OnEnable()
     {
         curve = target as BezierCurve;
@@ -37,6 +36,9 @@ public class BezierCurveEditor : Editor {
 
     const int lineSteps = 10;
     const float directionScale = 0.5f;
+    /// <summary>
+    /// 显示方向
+    /// </summary>
     void ShowDirection()
     {
         Handles.color = Color.green;

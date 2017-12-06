@@ -9,8 +9,8 @@ public class StellarRouteEditor : Editor {
     Stellar stellar;
     Transform transStellar;
     int m_nSelectedIndex = -1;
-    float Size = 0.05f;
-    float PickedSize = 0.1f;
+    float Size = 0.1f;
+    float PickedSize = 0.2f;
 
     int DrawPieces = 60;
 
@@ -31,19 +31,6 @@ public class StellarRouteEditor : Editor {
             p2 = ShowPoint(i + 1);
             Vector3 p3 = ShowPoint(i + 2);
             DrawStellarCurve(p0, p1, p2, p3);
-
-            ////(绘制p0 - p2) <==> (p1的dir)
-            //Handles.color = Color.gray;
-            //Handles.DrawLine(p0, p2);
-            //Handles.color = Color.blue;
-            //Handles.DrawLine(p1, p1 + scaleDir * stellar.GetDir(0f));
-
-            ////(绘制pPreLast2 - pLast) <==> (pPreLast的dir)
-            //Handles.color = Color.gray;
-            //Handles.DrawLine(p1, p3);
-            //Handles.color = Color.blue;
-            //Handles.DrawLine(p2, p2 + scaleDir * stellar.GetDir(1f));
-
             p0 = p1;
         }
     }
@@ -89,6 +76,7 @@ public class StellarRouteEditor : Editor {
     {
 
         float t = 0f;
+        Handles.color = Color.white;
         Vector3 Pre = StellarInterface.Interp(p0, p1, p2, p3, 0);
         for (int i = 1; i <= DrawPieces; i++)
         {

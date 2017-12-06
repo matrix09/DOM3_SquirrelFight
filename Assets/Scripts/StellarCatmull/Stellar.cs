@@ -9,6 +9,11 @@ namespace Assets.Scripts.Stellar
 
         public Vector3[] Points;
 
+        public float m_fDis;
+
+        [SerializeField]
+        Vector3[] m_vConstans;
+
         void Reset()
         {
             Points = new Vector3[]{
@@ -17,6 +22,9 @@ namespace Assets.Scripts.Stellar
                 new Vector3(16f, 0f, 0f),
                 new Vector3(24f, 0f, 0f)
             };
+
+            m_vConstans = new Vector3[3];
+
         }
 
         public Vector3 Interp(float t)
@@ -47,10 +55,14 @@ namespace Assets.Scripts.Stellar
             }
             else
             {
-                t = t * (Points.Length - 3);
+                t = t * (Points.Length - 3); // t <1, 任何小于1的浮点数相乘，那么取整后，都会变成 n - 1.
                 index = (int)t;
                 t = t - index;
             }
+
+            m_vConstans[0] = 3 * (StellarInterface.r * (-Points[index] + ((2 - StellarInterface.r) / StellarInterface.r) * Points[index + 1] + ((StellarInterface.r - 2) / StellarInterface.r) * Points[index + 2] + Points[index + 3]));
+            m_vConstans[1] = 2 * (StellarInterface.r * (2 * Points[index] + ((StellarInterface.r - 3) / StellarInterface.r) * Points[index + 1] + ((3 - 2 * StellarInterface.r) / StellarInterface.r) * Points[index + 2] - Points[index + 3]));
+            m_vConstans[2] = StellarInterface.r * (Points[index + 2] - Points[index]);
 
             return transform.TransformPoint(StellarInterface.Velocity(Points[index], Points[index + 1], Points[index + 2], Points[index + 3], t)) - transform.position;
         }
@@ -60,9 +72,27 @@ namespace Assets.Scripts.Stellar
             return Velocity(t).normalized;
         }
 
+
+        public float GetDeltaT (float t) {
+               int index = 0;
+            if (t >= 1)
+            {
+                t = 1;
+                index = Points.Length - 4;
+            }
+            else
+            {
+                t = t * (Points.Length - 3); // t <1, 任何小于1的浮点数相乘，那么取整后，都会变成 n - 1.
+                index = (int)t;
+                t = t - index;
+            }
+
+            return m_fDis / Vector3.Magnitude (m_vConstans[0] * t * t + m_vConstans[1] * t + m_vConstans[2]);
+
+        }
+
         public void AddPoint()
         {
-
             Vector3 pos = Points[Points.Length - 1];
             Array.Resize(ref Points, Points.Length + 3);
             pos.x += 8;
@@ -71,9 +101,34 @@ namespace Assets.Scripts.Stellar
             Points[Points.Length - 2] = pos;
             pos.x += 8;
             Points[Points.Length - 1] = pos;
-
         }
 
+        public void ResetPoints()
+        {
+
+            Vector3[] newpoints = new Vector3[4];
+
+            for (int i = 0; i < 3; i++)
+            {
+                newpoints[i] = Points[i + 1];
+            }
+            Vector3 pos = Points[Points.Length - 1];
+            pos.x += 8;
+            newpoints[3] = pos;
+
+            Points = newpoints;
+
+
+            //Vector3 pos = Points[Points.Length - 1];
+            //Array.Resize(ref Points, 4);
+            //Points[Points.Length - 4] = pos;
+            //pos.x += 8;
+            //Points[Points.Length - 3] = pos;
+            //pos.x += 8;
+            //Points[Points.Length - 2] = pos;
+            //pos.x += 8;
+            //Points[Points.Length - 1] = pos;
+        }
     }
 }
 

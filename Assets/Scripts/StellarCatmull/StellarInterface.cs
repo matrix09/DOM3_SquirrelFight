@@ -5,7 +5,7 @@ using UnityEngine;
 public class StellarInterface {
 
 
-    static float r = 0.5f;
+    public static float r = 0.5f;
 
     public static Vector3 Interp(Vector3 a, Vector3 b, Vector3 c, Vector3 d, float u)
     {

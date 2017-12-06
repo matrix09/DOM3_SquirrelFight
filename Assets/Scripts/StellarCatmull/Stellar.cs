@@ -54,7 +54,6 @@ namespace Assets.Scripts.Stellar
 }
 
 
-
 //public void GizmoDraw(Vector3[] source, float t)
 //{
 //    Gizmos.color = Color.white;

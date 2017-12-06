@@ -9,6 +9,16 @@ namespace Assets.Scripts.Stellar
 
         public Vector3[] Points;
 
+        void Reset()
+        {
+            Points = new Vector3[]{
+                new Vector3(0f, 0f, 0f),
+                new Vector3(8f, 0f, 0f),
+                new Vector3(16f, 0f, 0f),
+                new Vector3(24f, 0f, 0f)
+            };
+        }
+
         public Vector3 Interp(float t)
         {
             int index = 0;
@@ -19,7 +29,7 @@ namespace Assets.Scripts.Stellar
             }
             else
             {
-                t = t * (Points.Length - 1) / 3;
+                t = t * (Points.Length - 3);
                 index = (int)t;
                 t = t - index;
             }
@@ -37,7 +47,7 @@ namespace Assets.Scripts.Stellar
             }
             else
             {
-                t = t * (Points.Length - 1) / 3;
+                t = t * (Points.Length - 3);
                 index = (int)t;
                 t = t - index;
             }
@@ -48,6 +58,20 @@ namespace Assets.Scripts.Stellar
         public Vector3 GetDir(float t)
         {
             return Velocity(t).normalized;
+        }
+
+        public void AddPoint()
+        {
+
+            Vector3 pos = Points[Points.Length - 1];
+            Array.Resize(ref Points, Points.Length + 3);
+            pos.x += 8;
+            Points[Points.Length - 3] = pos;
+            pos.x += 8;
+            Points[Points.Length - 2] = pos;
+            pos.x += 8;
+            Points[Points.Length - 1] = pos;
+
         }
 
     }

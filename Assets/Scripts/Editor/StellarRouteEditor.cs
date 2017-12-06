@@ -6,7 +6,6 @@ using Assets.Scripts.Stellar;
 [CustomEditor(typeof(Stellar))]
 public class StellarRouteEditor : Editor {
 
-
     Stellar stellar;
     Transform transStellar;
     int m_nSelectedIndex = -1;
@@ -16,7 +15,6 @@ public class StellarRouteEditor : Editor {
     int DrawPieces = 60;
 
     float scaleDir = 0.5f;
-
     void OnEnable()
     {
         stellar = target as Stellar;
@@ -27,26 +25,26 @@ public class StellarRouteEditor : Editor {
     {
         Vector3 p0 = ShowPoint(0);
         Vector3 p1, p2;
-        for (int i = 1; i < stellar.Points.Length - 1; i+=3)
+        for (int i = 1; i <= stellar.Points.Length -  3; i+=1)
         {
             p1 = ShowPoint(i);
             p2 = ShowPoint(i + 1);
             Vector3 p3 = ShowPoint(i + 2);
             DrawStellarCurve(p0, p1, p2, p3);
 
-            //(绘制p0 - p2) <==> (p1的dir)
-            Handles.color = Color.gray;
-            Handles.DrawLine(p0, p2);
-            Handles.color = Color.blue;
-            Handles.DrawLine(p1, p1 + scaleDir * stellar.GetDir(0f));
+            ////(绘制p0 - p2) <==> (p1的dir)
+            //Handles.color = Color.gray;
+            //Handles.DrawLine(p0, p2);
+            //Handles.color = Color.blue;
+            //Handles.DrawLine(p1, p1 + scaleDir * stellar.GetDir(0f));
 
-            //(绘制pPreLast2 - pLast) <==> (pPreLast的dir)
-            Handles.color = Color.gray;
-            Handles.DrawLine(p1, p3);
-            Handles.color = Color.blue;
-            Handles.DrawLine(p2, p2 + scaleDir * stellar.GetDir(1f));
+            ////(绘制pPreLast2 - pLast) <==> (pPreLast的dir)
+            //Handles.color = Color.gray;
+            //Handles.DrawLine(p1, p3);
+            //Handles.color = Color.blue;
+            //Handles.DrawLine(p2, p2 + scaleDir * stellar.GetDir(1f));
 
-            p0 = p3;
+            p0 = p1;
         }
     }
 
@@ -100,6 +98,16 @@ public class StellarRouteEditor : Editor {
             Pre = Cur;
         }
 
+    }
+
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        if (GUILayout.Button("Add Point"))
+        {
+            stellar.AddPoint();
+        }
     }
 
 }

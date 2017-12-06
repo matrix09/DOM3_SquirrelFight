@@ -138,7 +138,7 @@ MonoBehaviour:
   Points:
   - {x: 0, y: 0, z: 0}
   - {x: 8, y: 0, z: 0}
-  - {x: 16, y: 0, z: 0}
+  - {x: 16, y: 0, z: 7.5640655}
   - {x: 24, y: 0, z: 0}
   m_fDis: 4
   m_vConstans:

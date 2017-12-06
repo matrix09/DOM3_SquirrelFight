@@ -42,8 +42,14 @@ namespace Assets.Scripts.Stellar
                 t = t - index;
             }
 
+            m_vConstans[0] = 3 * (StellarInterface.r * (-Points[index] + ((2 - StellarInterface.r) / StellarInterface.r) * Points[index + 1] + ((StellarInterface.r - 2) / StellarInterface.r) * Points[index + 2] + Points[index + 3]));
+            m_vConstans[1] = 2 * (StellarInterface.r * (2 * Points[index] + ((StellarInterface.r - 3) / StellarInterface.r) * Points[index + 1] + ((3 - 2 * StellarInterface.r) / StellarInterface.r) * Points[index + 2] - Points[index + 3]));
+            m_vConstans[2] = StellarInterface.r * (Points[index + 2] - Points[index]);
+
             return transform.TransformPoint(StellarInterface.Interp(Points[index], Points[index + 1], Points[index + 2], Points[index + 3], t));
         }
+
+
 
         public Vector3 Velocity(float t)
         {
@@ -60,9 +66,7 @@ namespace Assets.Scripts.Stellar
                 t = t - index;
             }
 
-            m_vConstans[0] = 3 * (StellarInterface.r * (-Points[index] + ((2 - StellarInterface.r) / StellarInterface.r) * Points[index + 1] + ((StellarInterface.r - 2) / StellarInterface.r) * Points[index + 2] + Points[index + 3]));
-            m_vConstans[1] = 2 * (StellarInterface.r * (2 * Points[index] + ((StellarInterface.r - 3) / StellarInterface.r) * Points[index + 1] + ((3 - 2 * StellarInterface.r) / StellarInterface.r) * Points[index + 2] - Points[index + 3]));
-            m_vConstans[2] = StellarInterface.r * (Points[index + 2] - Points[index]);
+          
 
             return transform.TransformPoint(StellarInterface.Velocity(Points[index], Points[index + 1], Points[index + 2], Points[index + 3], t)) - transform.position;
         }

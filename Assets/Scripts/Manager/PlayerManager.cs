@@ -13,6 +13,10 @@ public class PlayerManager : MonoBehaviour {
 
     Animator am;
 
+    const float headPer = 0.01f;
+
+    Vector3 headPos;
+
     void Start()
     {
         am = gameObject.GetComponent<Animator>();
@@ -32,23 +36,29 @@ public class PlayerManager : MonoBehaviour {
             am.SetFloat("Speed", 0f);
             return;
         }
-         
 
         if (m_fT >= 1f)
-            m_fT = 0f;
+            return;
+
+        if (m_fT >= headPer && m_fT <= 1f - headPer)
+        {
+            if (he > 0f)
+            {
+                headPos = m_cStellar.Interp(m_fT + headPer);
+            }
+            else
+            {
+                headPos = m_cStellar.Interp(m_fT - headPer);
+            }
+
+            transform.LookAt(headPos);
+
+        }
 
         pos = m_cStellar.Interp(m_fT);
-
-        transform.forward = m_cStellar.GetDir(m_fT);
-
         transform.position = Vector3.Lerp(transform.position, new Vector3(pos.x, transform.position.y, pos.z), 5 * Time.deltaTime);
-
         m_fT += m_cStellar.GetDeltaT(m_fT) * Time.deltaTime * (he > 0f ? 1 : -1);
-
-
         am.SetFloat("Speed", 1f);
-
-
     }
 
 }

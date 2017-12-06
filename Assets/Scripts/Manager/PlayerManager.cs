@@ -37,10 +37,13 @@ public class PlayerManager : MonoBehaviour {
             return;
         }
 
-        if (m_fT >= 1f)
+        if (m_fT >= 1f && he >= 0f)
             return;
 
-        if (m_fT >= headPer && m_fT <= 1f - headPer)
+        if (m_fT < 0f)
+            m_fT = 0f;
+
+        if (m_fT >= headPer && m_fT <= 1f)
         {
             if (he > 0f)
             {
@@ -57,6 +60,7 @@ public class PlayerManager : MonoBehaviour {
 
         pos = m_cStellar.Interp(m_fT);
         transform.position = Vector3.Lerp(transform.position, new Vector3(pos.x, transform.position.y, pos.z), 5 * Time.deltaTime);
+
         m_fT += m_cStellar.GetDeltaT(m_fT) * Time.deltaTime * (he > 0f ? 1 : -1);
         am.SetFloat("Speed", 1f);
     }

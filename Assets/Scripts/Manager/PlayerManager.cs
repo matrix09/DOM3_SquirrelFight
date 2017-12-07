@@ -2,32 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Stellar;
-public class PlayerManager : MonoBehaviour {
+public class PlayerManager : MonoBehaviour
+{
 
+    #region 变量
     public Stellar m_cStellar;  //获取曲线信息
-
     float he = 0f;
-
     float m_fT = 0f;
     Vector3 pos;
-
     Animator am;
-
     const float headPer = 0.01f;
-
     Vector3 headPos;
+    #endregion
 
-    void Start()
-    {
-        am = gameObject.GetComponent<Animator>();
-    }
-
-	void Update () {
-
-        CharacterMove();    //角色运动
-
-	}
-
+    #region 角色移动
     void CharacterMove()
     {
         he = Input.GetAxis("Horizontal");
@@ -38,7 +26,10 @@ public class PlayerManager : MonoBehaviour {
         }
 
         if (m_fT >= 1f && he >= 0f)
-            return;
+        {
+            m_cStellar.LinkPoints(out m_fT);
+        }
+         
 
         if (m_fT < 0f)
             m_fT = 0f;
@@ -64,5 +55,16 @@ public class PlayerManager : MonoBehaviour {
         m_fT += m_cStellar.GetDeltaT(m_fT) * Time.deltaTime * (he > 0f ? 1 : -1);
         am.SetFloat("Speed", 1f);
     }
+    #endregion
 
+    #region 系统接口
+    void Start()
+    {
+        am = gameObject.GetComponent<Animator>();
+    }
+    void Update()
+    {
+        CharacterMove();    //角色运动
+    }
+    #endregion
 }

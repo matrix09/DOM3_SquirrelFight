@@ -49,8 +49,6 @@ namespace Assets.Scripts.Stellar
             return transform.TransformPoint(StellarInterface.Interp(Points[index], Points[index + 1], Points[index + 2], Points[index + 3], t));
         }
 
-
-
         public Vector3 Velocity(float t)
         {
             int index = 0;
@@ -75,7 +73,6 @@ namespace Assets.Scripts.Stellar
         {
             return Velocity(t).normalized;
         }
-
 
         public float GetDeltaT (float t) {
                int index = 0;
@@ -133,6 +130,18 @@ namespace Assets.Scripts.Stellar
             //pos.x += 8;
             //Points[Points.Length - 1] = pos;
         }
+
+        //动态加点
+        public void LinkPoints(out float curper)
+        {
+            //记录当前的段数 length - 3 -> old
+
+            //记录链接后的段数 newLength - 3 -> new
+
+            //curper = (old / new)
+            curper = 0f;
+        }
+
     }
 }
 
